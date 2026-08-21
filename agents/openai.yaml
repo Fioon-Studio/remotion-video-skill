@@ -2,4 +2,3 @@ interface:
   display_name: "Codex Remotion 视频制作 Skill"
   short_description: "把文案、素材、配音和动效编排成可复用的 Remotion 视频"
   default_prompt: "用这套 Skill 把一份文案拆成白色场景页和黑底知识卡，并按配音时间轴生成统一风格视频。"
-
