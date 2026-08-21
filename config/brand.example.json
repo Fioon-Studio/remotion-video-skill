@@ -1,0 +1,16 @@
+{
+  "name": "your-brand",
+  "logo": "images/brand/logo-placeholder.svg",
+  "fontFamily": "Your Display Font, Microsoft YaHei, sans-serif",
+  "colors": {
+    "paper": "#F4F1E8",
+    "ink": "#111714",
+    "grid": "rgba(255,255,255,0.06)",
+    "accent": "#2AD47A",
+    "muted": "#A7B0AA"
+  },
+  "watermark": {
+    "enabled": false,
+    "text": ""
+  }
+}
