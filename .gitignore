@@ -1,0 +1,14 @@
+node_modules/
+out/
+public/audio/*
+public/images/*
+!.gitkeep
+.env
+.env.*
+!.env.example
+*.wav
+*.mp3
+*.m4a
+*.mp4
+*.mov
+*.webm
