@@ -42,7 +42,9 @@ description: 用 Remotion 把中文口播稿、配音、画面素材、字幕和
 
 ### 4. 建立时间线
 
-把 narration 片段保存为 `{id, text, startFrame, endFrame, scene, emphasis}`。字幕和场景时间必须来自真实音频时间戳。字幕按词组或短句切分，保持自然停顿，不要拆成单字。
+把 narration 片段保存为 `{id, text, startFrame, endFrame, scene, emphasis}`。字幕和场景时间必须来自真实音频时间戳。每一个会变亮、放大、出现或淡下的元素，都要附一个明确的口播锚点，使用该词或短句的真实起始帧，不能按场景时长平均分配。
+
+字幕优先在原稿的逗号、句号、问号、感叹号等自然停顿处分组；屏幕文字移除这些标点。没有自然停顿时，再按完整词组或短句切分。绝不把一个词拆开，也不要为了凑两到八个字而打断一句完整的话。
 
 ### 5. 音频和动效
 
@@ -56,13 +58,17 @@ description: 用 Remotion 把中文口播稿、配音、画面素材、字幕和
 
 使用浅色外框、较粗的圆角图片边框和简单背景，人物与主要物件尽量在同一张场景图里。让人物在场景不变时更换表情或动作，避免每句话都换背景。
 
+白底画面先划出顶部进度条、主体区和底部字幕区。主体内容要在主体区的视觉中心保持平衡，不能只把标题放在水平中心而让图片、按钮或文字全部偏向一侧。三项以内的短重点可以放在图片留白处；超过三项直接改黑底卡，不叠在图片上。
+
 ### 黑底知识卡
 
 网格是最底层的背景。标题居中、字号足够大、阅读顺序清楚。点、线、搜索框、终端、箭头和卡片按顺序出现。讲完的内容轻微暗下，当前内容保持最亮。一次只使用一种主要转场动作。
 
+列表、步骤和选项保持原位，只在口播说到对应项时点亮。只有讲解某一个文件、按钮、截图区域或单一概念，且需要观众停下来观察时，才使用“其他元素变暗、目标移到中心放大”的中央聚焦。不要把每个卡片、每组按钮都做成中央聚焦。
+
 ### 字幕和运动
 
-- 字幕按短语切分，中文一组保留两到八个字
+- 字幕优先按标点和自然语义停顿切分；界面不展示 `，。？！` 等标点
 - 字幕基线在各场景保持稳定，并留出安全边距
 - 重要词使用指定字体，普通字幕使用易读字体
 - 动效使用 Remotion 的 frame 插值和明确的 `from`、`durationInFrames`，不要依赖墙钟时间
@@ -89,18 +95,20 @@ description: 用 Remotion 把中文口播稿、配音、画面素材、字幕和
 2. 根据 `config/brand.example.json` 创建本地品牌配置
 3. 把脚本、配音、timing manifest 和素材放到对应目录
 4. 运行 `scripts/check-public-release.ps1`，检查密钥和本地路径泄露
-5. 先预览白底页、黑底卡、过渡页和字幕，再渲染完整视频
+5. 先预览白底页、黑底卡、过渡页、截图聚焦页和字幕，再渲染完整视频
 
 ## 发布前检查
 
 - 项目可以在没有私有文件的情况下安装和构建
 - 每种场景都有首帧和稳定帧预览
 - 配音、字幕、BGM 和画面变化共用同一条时间线
+- 每一个高亮、点亮、淡化和截图框选都从对应口播锚点开始，不允许均分场景时长
+- 白底主体区与黑底主要图形在顶部进度条和底部字幕之间保持视觉平衡；普通列表不滥用中央聚焦
 - 黑底卡的重要文字都由 Remotion 图层渲染
 - 最终视频时长与 narration 一致，字幕不抢跑，BGM 明显低于人声
 - 仓库中没有 API key、个人音色、私有截图和本地绝对路径
 
 ## English quick reference
 
-This Skill builds reusable Chinese AI-explainer videos with Remotion. Keep Chinese as the default language while preserving technical names such as Agent, Skill, Workflow, Tool, Memory, TTS and Remotion in their original spelling. Never commit API keys, private recordings, cloned voices, signed URLs, local paths or private screenshots. Use white scenes for concrete examples and black grid cards for concepts, lists and technical structures. Derive captions and scene timing from real narration timestamps, keep captions phrase-level, keep BGM quiet, and rebuild the timing manifest whenever narration changes.
+This Skill builds reusable Chinese AI-explainer videos with Remotion. Keep Chinese as the default language while preserving technical names such as Agent, Skill, Workflow, Tool, Memory, TTS and Remotion in their original spelling. Never commit API keys, private recordings, cloned voices, signed URLs, local paths or private screenshots. Use white scenes for concrete examples and black grid cards for concepts, lists and technical structures. Derive every visual action from the exact start frame of its spoken phrase, keep ordinary lists in place, reserve central focus for a single inspection target, and rebuild timing, captions and visual cues whenever narration changes.
 

@@ -13,11 +13,22 @@ Use a frame-based manifest so captions and visual actions share the same source 
 
 Use the real narration timestamps when filling `startFrame` and `endFrame`. At 60 fps, one second is 60 frames; at 30 fps, one second is 30 frames.
 
+For every visual cue, store the target and its anchor explicitly. For example:
+
+```json
+{"id":"readme-focus","target":"README","anchorText":"先看 README","startFrame":820,"endFrame":940,"mode":"focus"}
+```
+
+`startFrame` must be the real start of `anchorText`. A cue must never be placed by evenly dividing the scene duration. Use `mode: "focus"` only for a single inspection target; use `mode: "highlight"` when the item should stay in its original list or grid position.
+
 ## Alignment checks
 
 - The first visible caption should begin with the spoken phrase, not before it.
 - A caption should end no later than the phrase it represents, except for a deliberate reading hold.
 - A scene change should happen at a sentence boundary or a designed pause.
+- An in-place highlight must start when its matching word is spoken, not at the beginning of the scene.
+- A screenshot frame must put the highlighted region near the center of its visible crop. Dim or crop the surrounding interface instead of showing an unrelated full-screen capture.
+- Review stills at each cue boundary: before the spoken word, at the first frame of the word, and after the next cue begins.
 - When narration changes, regenerate the manifest and captions together.
 
 ## Mix guidance
