@@ -1,5 +1,19 @@
 # Remotion Video Skill
 
+## 公开包里有什么
+
+这个仓库不包含任何 Fioon 角色、Logo、配音、截图或 API 配置，但包含可直接复制的制作方法和运行模板：
+
+- 顶部章节进度条、已完成段变色、SVG 占位行走小人与替换为帧动画的做法
+- 白底主体区、加粗圆角画框、黑底网格知识卡、截图裁切聚焦
+- 字幕淡入、固定字幕区、基于真实口播锚点的点亮规则
+- TTS、双语术语、背景音乐、音效、背景和角色素材的替换方向
+- 画面变化库、布局/聚焦限制、字幕断句、音画锚点、审片规则与禁忌
+- 主角 IP 设定图、四视图、动作/表情、行走循环与素材入库要求
+- 完整资产库目录、每条视频的素材索引，以及配音/画面/动画/字幕/音效同一帧级时间轴
+
+安装后运行 `npm run dev`，选择 `StyleSystemDemo`，就能先看到这套通用结构。详细替换方式见 [references/implementation-recipes.md](references/implementation-recipes.md)、[references/tts-and-assets.md](references/tts-and-assets.md)、[references/production-spec.md](references/production-spec.md)、[references/character-and-visual-spec.md](references/character-and-visual-spec.md) 与 [references/asset-library-and-frame-sync.md](references/asset-library-and-frame-sync.md)。
+
 > 中文优先的 Remotion 短视频制作 Skill，给 Codex、WorkBuddy 和 DeepSeek Harness 读取、执行与复用。
 
 把一份口播稿，整理成一条可继续修改的短视频：画面、配音、字幕、重点词、知识卡和音效都围绕同一份时间线工作。

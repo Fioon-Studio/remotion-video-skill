@@ -18,8 +18,10 @@ description: 用 Remotion 把中文口播稿、配音、画面素材、字幕和
 
 - API key、token、签名链接、本地路径、个人录音和私有截图都视为敏感信息，不得写进仓库、示例、日志或提示词
 - 从 `config/brand.example.json` 开始，品牌 Logo、字体和颜色请在本地创建私有的 `brand.json`
+- 从 `config/character.example.json` 创建本地 `character.json`，先完成角色母版、动作和行走帧，再批量生成场景
 - 不要把克隆音色、个人录音、付费音效或企业内部截图打包进公开仓库，只保留占位文件名和说明
 - 不假设用户的盘符、用户名、代理或操作系统，项目应当能在不同电脑上初始化
+- 通用组件、动效参数、素材规格和替换步骤必须保留在公开包；只替换掉品牌角色、Logo、音频和私有截图
 
 ## 推荐工作流
 
@@ -51,6 +53,7 @@ description: 用 Remotion 把中文口播稿、配音、画面素材、字幕和
 - 全片使用同一套中文和英文都能自然朗读的音色
 - BGM 低音量循环铺底，讲解时继续压低，点击、转场和确认音效只放在看得见的动作上
 - 配音重新生成后，必须重新生成 timing manifest 和字幕，不能沿用旧时间戳
+- TTS 选型、双语发音、分段策略、音效和背景音乐的替换方式见 [references/tts-and-assets.md](references/tts-and-assets.md)
 
 ## 视觉系统
 
@@ -72,6 +75,16 @@ description: 用 Remotion 把中文口播稿、配音、画面素材、字幕和
 - 字幕基线在各场景保持稳定，并留出安全边距
 - 重要词使用指定字体，普通字幕使用易读字体
 - 动效使用 Remotion 的 frame 插值和明确的 `from`、`durationInFrames`，不要依赖墙钟时间
+
+### 可运行组件和素材替换
+
+模板包含不带品牌素材的 `ProgressRail`、`WalkingMascot`、`WhiteSceneFrame`、`GradientCaption`、`ScreenshotFocus` 与 `StyleSystemDemo`。先读 [references/implementation-recipes.md](references/implementation-recipes.md)，再替换自己的 Logo、人物透明图、背景图、音色和品牌颜色。不要删除实现方法，只删除或替换私有资产。
+
+画面变化、布局、聚焦使用范围、字幕断句、BGM、审片和禁忌见 [references/production-spec.md](references/production-spec.md)。模板里的 `Timing.ts` 和 `MotionLibrary.tsx` 提供字幕清洗、锚点验证、原位点亮、点线关系、打字机和章节页原件。
+
+主角 IP 的四视图、身份锚点、表情动作、行走循环、场景入库和白底/黑底/截图/字体/画幅规范见 [references/character-and-visual-spec.md](references/character-and-visual-spec.md)。
+
+素材库目录、资产索引和逐帧同步方式见 [references/asset-library-and-frame-sync.md](references/asset-library-and-frame-sync.md)。最终配音、字幕、场景、人物动作、点亮、截图框选与音效必须读取同一份 `timing.json`；渲染前运行 `node scripts/check-timeline.mjs <timing.json>`。
 
 ## 可复用输入
 
@@ -106,6 +119,8 @@ description: 用 Remotion 把中文口播稿、配音、画面素材、字幕和
 - 白底主体区与黑底主要图形在顶部进度条和底部字幕之间保持视觉平衡；普通列表不滥用中央聚焦
 - 黑底卡的重要文字都由 Remotion 图层渲染
 - 最终视频时长与 narration 一致，字幕不抢跑，BGM 明显低于人声
+- 进度条已完成段、节点和小人位置都和真实完整时间线一致；白底与黑底的主要内容都在主体区视觉平衡
+- 资产索引中的每个文件都存在；配音、画面、动画、字幕和音效使用同一帧级时间轴，并已通过 `check-timeline.mjs`
 - 仓库中没有 API key、个人音色、私有截图和本地绝对路径
 
 ## English quick reference

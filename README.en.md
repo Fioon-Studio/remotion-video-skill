@@ -1,5 +1,9 @@
 # Remotion Video Skill
 
+## What is included
+
+The public package contains no Fioon character, logo, voice, screenshots, or API configuration. It does include reusable implementation: a chapter rail with a walking SVG placeholder, white-frame and black-grid scene components, fixed caption fade-in, screenshot focus, and guides for replacing TTS, BGM, SFX, backgrounds and sprite frames. Run `npm run dev` and open `StyleSystemDemo` for the generic working example.
+
 A Chinese-first Codex / WorkBuddy / DeepSeek Harness Skill for reusable Remotion videos.
 
 It turns a script, narration, images, captions and motion rules into an editable video project. It is designed for AI beginner tutorials, enterprise-AI explainers, character-led scenes and black knowledge cards.

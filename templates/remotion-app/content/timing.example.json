@@ -1,0 +1,20 @@
+{
+  "fps": 60,
+  "narration": "public/audio/narration/video-001.mp3",
+  "chapters": [
+    {"id": "start", "label": "引入", "startFrame": 0, "endFrame": 150, "title": "今天要解决什么", "subtitle": "先看结果"},
+    {"id": "example", "label": "举例", "startFrame": 150, "endFrame": 300, "title": "用一个例子讲清楚", "subtitle": "画面和配音进入同一章节"}
+  ],
+  "segments": [
+    {"id": "s01", "text": "五分钟讲明白 Agent", "startFrame": 0, "endFrame": 150, "scene": "chapter"},
+    {"id": "s02", "text": "先让它帮你安排聚餐", "startFrame": 150, "endFrame": 300, "scene": "white-example"}
+  ],
+  "cues": [
+    {"id": "chapter-title", "anchorText": "Agent", "startFrame": 84, "endFrame": 150, "mode": "enter", "target": "chapter-title"},
+    {"id": "scene-change", "anchorText": "安排聚餐", "startFrame": 240, "endFrame": 300, "mode": "enter", "target": "white-example"}
+  ],
+  "captions": [
+    {"segmentId": "s01", "text": "五分钟讲明白 Agent", "startFrame": 0, "endFrame": 150},
+    {"segmentId": "s02", "text": "先让它帮你安排聚餐", "startFrame": 150, "endFrame": 300}
+  ]
+}

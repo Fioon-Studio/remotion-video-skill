@@ -1,0 +1,18 @@
+{
+  "characterId": "my-account-host-v1",
+  "role": "AI beginner explainer host",
+  "identityLock": {
+    "presentation": "female or male, choose once and keep stable",
+    "hair": "describe color, length, texture and distinctive strand",
+    "eyes": "describe color and shape",
+    "outfit": "plain branded T-shirt or fixed outfit, one main color plus one accent",
+    "accessories": "0 to 2 stable accessories",
+    "style": "choose one: soft 3D chibi / hand-drawn cartoon / flat illustration"
+  },
+  "masterViews": ["front", "three-quarter-left", "profile", "back"],
+  "expressions": ["neutral", "explaining", "thinking", "surprised", "happy"],
+  "poses": ["pointing-left", "pointing-right", "open-palm", "typing", "holding-card", "celebrating"],
+  "walkCycleFrames": 6,
+  "sourceImageSize": "1024x1024 or larger, transparent PNG when compositing",
+  "doNotPublish": ["source photos", "private brand logo", "licensed character art"]
+}

@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "remotion studio src/index.ts",
-    "render": "remotion render src/index.ts KnowledgeCardDemo out/knowledge-card-demo.mp4 --codec=h264",
+    "render": "remotion render src/index.ts StyleSystemDemo out/style-system-demo.mp4 --codec=h264",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

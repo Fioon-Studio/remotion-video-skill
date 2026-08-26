@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "character": {
+    "masterSheet": "images/characters/host/master-sheet.png",
+    "poses": {
+      "explain": "images/characters/host/pose-explain.png",
+      "think": "images/characters/host/pose-think.png",
+      "point-left": "images/characters/host/pose-point-left.png"
+    },
+    "walkFrames": [
+      "images/characters/host/walk/walk-01.png",
+      "images/characters/host/walk/walk-02.png"
+    ]
+  },
+  "scenes": {
+    "desk": "images/scenes/desk/desk-explain.png",
+    "phone": "images/scenes/phone/phone-use.png"
+  },
+  "screenshots": {
+    "readme": "images/screenshots/repo-readme-zh.png"
+  },
+  "audio": {
+    "narration": "audio/narration/video-001.mp3",
+    "bgm": "audio/bgm/main-loop.mp3",
+    "sfx": {
+      "click": "audio/sfx/click.wav",
+      "highlight": "audio/sfx/highlight.wav"
+    }
+  }
+}
