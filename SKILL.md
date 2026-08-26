@@ -1,129 +1,57 @@
 ---
-name: codex-remotion-video-skill
-description: 用 Remotion 把中文口播稿、配音、画面素材、字幕和动效编排成可复用的视频。支持白底人物讲解、黑底知识卡、章节进度条、字幕与配音对齐，以及长期复用的账号视觉规范。
+name: remotion-video-skill
+description: 用 Remotion 将中文口播稿、配音和素材制作成可继续编辑的讲解视频。适用于教程、工具演示和知识型短视频，不用于生成品牌私有素材。
 ---
 
-# Codex Remotion Video Skill
+# Remotion Video Skill
 
-这套 Skill 面向中文内容创作者，默认中文优先。Agent、Skill、Workflow、Tool、Memory、TTS、Remotion 等技术名词保留英文拼写，配音时按英文原本发音处理。
+## 目标
 
-## 适用场景
+根据文案、最终配音、素材和时间线，制作一条可预览、可修改、可渲染的中文讲解视频。中文为主；Agent、Skill、Workflow、Tool、Memory、TTS、Remotion 等技术名称保留原拼写，并按对应语言自然朗读。
 
-- AI 小白教程和企业 AI 解释视频
-- 白底人物讲解、黑底知识卡和章节过渡页
-- 口播、字幕、人物动作、重点词和音效的统一编排
-- 把同一套排版、字体、Logo 和节奏长期复用到不同选题
+## 开始前
 
-## 隐私与可移植性
+先确认以下输入：
 
-- API key、token、签名链接、本地路径、个人录音和私有截图都视为敏感信息，不得写进仓库、示例、日志或提示词
-- 从 `config/brand.example.json` 开始，品牌 Logo、字体和颜色请在本地创建私有的 `brand.json`
-- 从 `config/character.example.json` 创建本地 `character.json`，先完成角色母版、动作和行走帧，再批量生成场景
-- 不要把克隆音色、个人录音、付费音效或企业内部截图打包进公开仓库，只保留占位文件名和说明
-- 不假设用户的盘符、用户名、代理或操作系统，项目应当能在不同电脑上初始化
-- 通用组件、动效参数、素材规格和替换步骤必须保留在公开包；只替换掉品牌角色、Logo、音频和私有截图
+- 口播稿
+- 最终版 narration 音频
+- 图片、截图或录屏素材
+- `timing.json`，或能够从最终配音生成它的字幕时间戳
 
-## 推荐工作流
+缺少最终配音或时间戳时，可以先做分镜和预览，但不要把字数估算出的时长当成最终时间线。
 
-### 1. 先读懂文案
+## 制作规则
 
-找出黄金三秒、生活化例子、核心概念、过渡、练习和结尾行动。优先使用一整段 narration 音频；如果 TTS 只能返回分段文件，就保存分段和 timing manifest，不要用字数估算时间。
+1. 用白底人物或场景页讲具体例子和操作；用黑底网格卡讲四项以上的列表、定义、流程或对比。
+2. 三项以内的短重点可以写在图片留白处；文字必须大、清楚，并避开复杂背景。
+3. 字幕、画面、人物动作、截图框选、重点点亮和音效都从同一份真实时间线读取。每个变化以对应口播词或短句的起始帧为锚点，不按场景平均分配。
+4. 普通步骤、选项和文件夹保持原位。只有口播说到该项时才点亮它。只有需要观众检查单一按钮、文件或截图区域时，才将目标移到中心放大并压低其他内容。
+5. 截图只展示相关区域；将目标放在裁切画面中心，可使用局部暗化、框选或放大镜。不要整张界面铺满画面。
+6. 字幕按自然停顿和完整词组切分，屏幕上隐藏 `，。？！`。固定字幕基线，绝不拆开一个词。
+7. 将画面分为顶部进度区、主体区和底部字幕区。主体的视觉重量在主体区居中；左右分屏要平衡图像、文字和留白。
+8. 章节进度条、完成段和行走角色的位置必须来自完整配音中的真实章节帧。角色在进度线上方移动，圆点中心与线中心重合，章节文字不换行。
+9. 背景音乐只做衬底；点击、确认和转场音效必须对应看得见的动作。
+10. 不添加没有叙事职责的外框、小方块、星号或一秒闪过的页面。固定片头、章节页和每一次转场都必须对应一个完整的口播意图。
 
-### 2. 给每句话选画面
+## 工作顺序
 
-- 生活场景、产品界面、人物动作使用白底场景
-- 定义、超过三项的列点、关系图、对比和技术结构使用黑底知识卡
-- 只有真正换主题时才使用过渡页，不要在复杂图片上随意叠一条无关句子
+1. 读口播稿，标出开头收益、生活例子、概念、操作、章节和结尾行动。
+2. 先写 `director-plan.md`：每个章节要有口播锚点、观众收益、白底/黑底/截图类型、画面主体、动效、转场理由和禁止项。格式见 [references/director-preflight.md](references/director-preflight.md)。未完成分镜，不开始编码或生图。
+3. 为每个片段选择画面，并为所有会变化的元素记录口播锚点；产品出现时优先使用官方高清 Logo、公开产品页截图或有权使用的录屏。
+4. 使用最终 narration 生成或导入 `timing.json`；清洗字幕标点。
+5. 用 `src/LayoutGuard.ts` 检查文字、卡片、外框和按钮的矩形是否相撞，再预览固定片头、白底动作页、黑底卡、章节页和截图页，确认布局和字幕基线，再渲染完整视频。
+6. narration 改动后，重新生成时间线和字幕，不复用旧时间戳。
 
-### 3. 准备素材
+## 隐私
 
-- 图片放进 `public/images`，音频放进 `public/audio`，文件名保持稳定
-- 人物姿势和场景尽量来自同一套素材，新增画面先匹配已有构图
-- 重要中文展示字用提供的字体在 React 或 SVG 中渲染，普通字幕使用清晰的系统字体
-- 画面文字不超过三项时可以放在图片安静区域，超过三项直接切黑底卡，不要把字号压小
+品牌 Logo、人物素材、配音、截图、字体授权文件、API Key、签名链接和本地绝对路径只保留在使用者自己的项目中。公开仓库只应保留可替换的示例、占位文件和通用组件。
 
-### 4. 建立时间线
+## 可用资源
 
-把 narration 片段保存为 `{id, text, startFrame, endFrame, scene, emphasis}`。字幕和场景时间必须来自真实音频时间戳。每一个会变亮、放大、出现或淡下的元素，都要附一个明确的口播锚点，使用该词或短句的真实起始帧，不能按场景时长平均分配。
+- 组件使用方式：[references/implementation-recipes.md](references/implementation-recipes.md)
+- 导演分镜、节奏和版面检查：[references/director-preflight.md](references/director-preflight.md)
+- 时间线与音频：[references/timing-and-audio.md](references/timing-and-audio.md)
+- TTS、音乐与音效替换：[references/tts-and-assets.md](references/tts-and-assets.md)
+- 渲染前运行：`node scripts/check-timeline.mjs <timing.json>`
 
-字幕优先在原稿的逗号、句号、问号、感叹号等自然停顿处分组；屏幕文字移除这些标点。没有自然停顿时，再按完整词组或短句切分。绝不把一个词拆开，也不要为了凑两到八个字而打断一句完整的话。
-
-### 5. 音频和动效
-
-- 全片使用同一套中文和英文都能自然朗读的音色
-- BGM 低音量循环铺底，讲解时继续压低，点击、转场和确认音效只放在看得见的动作上
-- 配音重新生成后，必须重新生成 timing manifest 和字幕，不能沿用旧时间戳
-- TTS 选型、双语发音、分段策略、音效和背景音乐的替换方式见 [references/tts-and-assets.md](references/tts-and-assets.md)
-
-## 视觉系统
-
-### 白底场景
-
-使用浅色外框、较粗的圆角图片边框和简单背景，人物与主要物件尽量在同一张场景图里。让人物在场景不变时更换表情或动作，避免每句话都换背景。
-
-白底画面先划出顶部进度条、主体区和底部字幕区。主体内容要在主体区的视觉中心保持平衡，不能只把标题放在水平中心而让图片、按钮或文字全部偏向一侧。三项以内的短重点可以放在图片留白处；超过三项直接改黑底卡，不叠在图片上。
-
-### 黑底知识卡
-
-网格是最底层的背景。标题居中、字号足够大、阅读顺序清楚。点、线、搜索框、终端、箭头和卡片按顺序出现。讲完的内容轻微暗下，当前内容保持最亮。一次只使用一种主要转场动作。
-
-列表、步骤和选项保持原位，只在口播说到对应项时点亮。只有讲解某一个文件、按钮、截图区域或单一概念，且需要观众停下来观察时，才使用“其他元素变暗、目标移到中心放大”的中央聚焦。不要把每个卡片、每组按钮都做成中央聚焦。
-
-### 字幕和运动
-
-- 字幕优先按标点和自然语义停顿切分；界面不展示 `，。？！` 等标点
-- 字幕基线在各场景保持稳定，并留出安全边距
-- 重要词使用指定字体，普通字幕使用易读字体
-- 动效使用 Remotion 的 frame 插值和明确的 `from`、`durationInFrames`，不要依赖墙钟时间
-
-### 可运行组件和素材替换
-
-模板包含不带品牌素材的 `ProgressRail`、`WalkingMascot`、`WhiteSceneFrame`、`GradientCaption`、`ScreenshotFocus` 与 `StyleSystemDemo`。先读 [references/implementation-recipes.md](references/implementation-recipes.md)，再替换自己的 Logo、人物透明图、背景图、音色和品牌颜色。不要删除实现方法，只删除或替换私有资产。
-
-画面变化、布局、聚焦使用范围、字幕断句、BGM、审片和禁忌见 [references/production-spec.md](references/production-spec.md)。模板里的 `Timing.ts` 和 `MotionLibrary.tsx` 提供字幕清洗、锚点验证、原位点亮、点线关系、打字机和章节页原件。
-
-主角 IP 的四视图、身份锚点、表情动作、行走循环、场景入库和白底/黑底/截图/字体/画幅规范见 [references/character-and-visual-spec.md](references/character-and-visual-spec.md)。
-
-素材库目录、资产索引和逐帧同步方式见 [references/asset-library-and-frame-sync.md](references/asset-library-and-frame-sync.md)。最终配音、字幕、场景、人物动作、点亮、截图框选与音效必须读取同一份 `timing.json`；渲染前运行 `node scripts/check-timeline.mjs <timing.json>`。
-
-## 可复用输入
-
-```json
-{
-  "script": "path/to/script.txt",
-  "narration": "path/to/narration.wav",
-  "timing": "path/to/timing.json",
-  "brand": "path/to/brand.json",
-  "fps": 60,
-  "width": 1080,
-  "height": 1920
-}
-```
-
-缺少素材时使用明显占位符并报告缺项，不要偷偷替换成私有文件或虚构的 Logo。
-
-## 初始化
-
-1. 复制 `templates/remotion-app` 到自己的项目目录
-2. 根据 `config/brand.example.json` 创建本地品牌配置
-3. 把脚本、配音、timing manifest 和素材放到对应目录
-4. 运行 `scripts/check-public-release.ps1`，检查密钥和本地路径泄露
-5. 先预览白底页、黑底卡、过渡页、截图聚焦页和字幕，再渲染完整视频
-
-## 发布前检查
-
-- 项目可以在没有私有文件的情况下安装和构建
-- 每种场景都有首帧和稳定帧预览
-- 配音、字幕、BGM 和画面变化共用同一条时间线
-- 每一个高亮、点亮、淡化和截图框选都从对应口播锚点开始，不允许均分场景时长
-- 白底主体区与黑底主要图形在顶部进度条和底部字幕之间保持视觉平衡；普通列表不滥用中央聚焦
-- 黑底卡的重要文字都由 Remotion 图层渲染
-- 最终视频时长与 narration 一致，字幕不抢跑，BGM 明显低于人声
-- 进度条已完成段、节点和小人位置都和真实完整时间线一致；白底与黑底的主要内容都在主体区视觉平衡
-- 资产索引中的每个文件都存在；配音、画面、动画、字幕和音效使用同一帧级时间轴，并已通过 `check-timeline.mjs`
-- 仓库中没有 API key、个人音色、私有截图和本地绝对路径
-
-## English quick reference
-
-This Skill builds reusable Chinese AI-explainer videos with Remotion. Keep Chinese as the default language while preserving technical names such as Agent, Skill, Workflow, Tool, Memory, TTS and Remotion in their original spelling. Never commit API keys, private recordings, cloned voices, signed URLs, local paths or private screenshots. Use white scenes for concrete examples and black grid cards for concepts, lists and technical structures. Derive every visual action from the exact start frame of its spoken phrase, keep ordinary lists in place, reserve central focus for a single inspection target, and rebuild timing, captions and visual cues whenever narration changes.
-
+不要假设用户的盘符、用户名、代理、音色、品牌或素材授权。缺少素材时明确列出缺项，不用私有文件替代。

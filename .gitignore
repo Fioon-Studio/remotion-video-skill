@@ -6,6 +6,10 @@ public/images/*
 .env
 .env.*
 !.env.example
+config/brand.json
+config/character.json
+config/asset-library.json
+release/
 *.wav
 *.mp3
 *.m4a

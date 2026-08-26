@@ -1,35 +1,28 @@
 # Remotion Video Skill
 
-## What is included
+A reusable Remotion workflow for turning a Chinese narration script into an editable explainer video.
 
-The public package contains no Fioon character, logo, voice, screenshots, or API configuration. It does include reusable implementation: a chapter rail with a walking SVG placeholder, white-frame and black-grid scene components, fixed caption fade-in, screenshot focus, and guides for replacing TTS, BGM, SFX, backgrounds and sprite frames. Run `npm run dev` and open `StyleSystemDemo` for the generic working example.
+It combines character-led scenes for concrete examples, black knowledge cards for concepts, and a shared timing file for captions, emphasis and sound effects.
 
-A Chinese-first Codex / WorkBuddy / DeepSeek Harness Skill for reusable Remotion videos.
+## What you get
 
-It turns a script, narration, images, captions and motion rules into an editable video project. It is designed for AI beginner tutorials, enterprise-AI explainers, character-led scenes and black knowledge cards.
-
-## Features
-
-- White character scenes and black grid knowledge cards
-- Chapter progress bars, emphasis words, rails, cards, search boxes and terminal typewriter effects
-- Caption, scene and sound-effect timing derived from real narration timestamps
-- Reusable fonts, logo placement, character framing and layout rules
+- A copyable Remotion template
+- White scenes, black knowledge cards, chapter progress, screenshot focus and caption components
+- Timing-driven captions and visual cues
+- Replaceable examples for branding, character assets and audio
 
 ## Quick start
 
-1. Copy `templates/remotion-app` into your project.
-2. Copy `config/brand.example.json` and create a private local brand file.
-3. Prepare a script, one continuous narration track and a timing manifest.
-4. Put assets under `public/images` and `public/audio`.
-5. Preview representative scene types before rendering the full video.
+1. Copy `templates/remotion-app` into your own project.
+2. Run `npm install` and `npm run dev`.
+3. Add your narration and assets under `public/audio` and `public/images`.
+4. Create a `timing.json` from the final narration.
+5. Ask your coding agent to read `SKILL.md`, preview key scenes, then render.
 
-If a project has a README, read it first. Otherwise start with `SKILL.md` and ask your Agent to explain the folders, requirements and first run.
+Use white scenes for concrete examples. Use black cards for lists, definitions, comparisons and processes. Show only the relevant part of a screenshot, and trigger each highlight at the start of its spoken phrase.
 
-## Privacy
-
-This public repository must not contain API keys, cloned voices, personal recordings, private screenshots, signed URLs or absolute local paths. Run `scripts/check-public-release.ps1` before publishing.
+Before coding, make a director plan: define the opening, chapters, page type, visual purpose and transition reason for every narration section. The [director preflight](references/director-preflight.md) also covers white/black rhythm, product assets, layout collision checks and review frames.
 
 ## License
 
-MIT License. Copyright (c) 2026 FioonStudio. See [LICENSE](./LICENSE).
-
+[MIT License](./LICENSE) · Copyright (c) 2026 Fioon-Studio

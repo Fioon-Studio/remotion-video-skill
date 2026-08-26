@@ -1,87 +1,85 @@
 # Remotion Video Skill
 
-## 公开包里有什么
+把一篇中文口播稿，做成一条可继续编辑的 Remotion 视频。
 
-这个仓库不包含任何 Fioon 角色、Logo、配音、截图或 API 配置，但包含可直接复制的制作方法和运行模板：
+它适合 AI 教程、工具演示、知识讲解这类内容：人物场景讲例子，黑底知识卡讲概念，字幕、重点词和音效跟着真实配音时间走。
 
-- 顶部章节进度条、已完成段变色、SVG 占位行走小人与替换为帧动画的做法
-- 白底主体区、加粗圆角画框、黑底网格知识卡、截图裁切聚焦
-- 字幕淡入、固定字幕区、基于真实口播锚点的点亮规则
-- TTS、双语术语、背景音乐、音效、背景和角色素材的替换方向
-- 画面变化库、布局/聚焦限制、字幕断句、音画锚点、审片规则与禁忌
-- 主角 IP 设定图、四视图、动作/表情、行走循环与素材入库要求
-- 完整资产库目录、每条视频的素材索引，以及配音/画面/动画/字幕/音效同一帧级时间轴
+> 中文优先，适用于 Codex、WorkBuddy、DeepSeek Harness 等能读取本地项目的 Agent。
 
-安装后运行 `npm run dev`，选择 `StyleSystemDemo`，就能先看到这套通用结构。详细替换方式见 [references/implementation-recipes.md](references/implementation-recipes.md)、[references/tts-and-assets.md](references/tts-and-assets.md)、[references/production-spec.md](references/production-spec.md)、[references/character-and-visual-spec.md](references/character-and-visual-spec.md) 与 [references/asset-library-and-frame-sync.md](references/asset-library-and-frame-sync.md)。
+## 你会得到什么
 
-已经有在用的 Remotion 项目时，不要为了套用这份开源包再复制一个项目。请按 [自用款配置方式](references/self-use-profile.md) 在自己的项目内建立私有资产索引和制作配置；开源款继续只保留通用模板与方法。
+- 可复制的 Remotion 项目模板
+- 白底人物页、黑底知识卡、章节进度条、截图聚焦和固定字幕区
+- 以真实配音时间戳驱动的字幕、画面切换和逐项点亮方式
+- 品牌、角色、音频和素材的示例配置，方便替换成自己的内容
 
-> 中文优先的 Remotion 短视频制作 Skill，给 Codex、WorkBuddy 和 DeepSeek Harness 读取、执行与复用。
+这里提供的是可改的制作基础，不是只能导出一次的成片工具。换文案、配音和素材后，Agent 可以继续在同一项目里完成下一条。
 
-把一份口播稿，整理成一条可继续修改的短视频：画面、配音、字幕、重点词、知识卡和音效都围绕同一份时间线工作。
+## 三分钟开始
 
-English version: [README.en.md](./README.en.md)
-
-## 这套 Skill 能做什么
-
-- 人物讲解、屏幕录制穿插、黑底知识卡三类画面按文案内容切换
-- 用真实配音时间戳对齐字幕、画面停留、重点词和音效
-- 复用账号的字体、Logo、人物构图、章节进度条与画面排版
-- 适合 AI 小白教程、企业 AI 解释、工具实操和知识型短视频
-
-## 先看这一张路线图
-
-```text
-口播稿 + 连续配音 + 素材
-          ↓
-按时间线拆成画面段落
-          ↓
-人物讲解 / 截图聚焦 / 黑底知识卡
-          ↓
-Remotion 预览与渲染
-```
-
-## 第一次怎么用
-
-1. 复制 `templates/remotion-app` 到你自己的项目目录。
-2. 复制 `config/brand.example.json`，在本地创建只属于自己的品牌配置。
-3. 准备口播稿、一条连续配音、字幕或时间线数据，以及你想使用的图片和截图。
-4. 把素材放进新项目的 `public/images`、`public/audio` 等目录。
-5. 把 `SKILL.md` 交给 Codex、WorkBuddy 或 DeepSeek Harness，让它先解释目录，再按稿子生成分镜和场景。
-6. 先抽看几种关键画面，确认字幕、音频和重点内容对齐后，再渲染整条视频。
-
-如果你第一次看到 GitHub 项目：先读这份 README；看不懂的地方，把整个文件夹交给 Agent，让它用自己的话解释“它做什么、需要准备什么、第一步怎么开始”。
-
-## 目录说明
-
-| 目录 | 作用 |
-| --- | --- |
-| `agents` | 给 Codex、WorkBuddy、DeepSeek Harness 的初始化说明 |
-| `config` | 账号品牌配置示例，不放私密信息 |
-| `references` | 画面、声音、字幕和时间线规则 |
-| `scripts` | 初始化、检查和辅助脚本 |
-| `templates` | 可复制的 Remotion 项目模板 |
-| `SKILL.md` | 整套制作流程的入口说明 |
-
-## 画面与节奏原则
-
-- 讲生活化案例时，用人物与场景承接；一个场景可用符合文案的动作变化，而不是机械换图。
-- 讲概念、步骤或对比时，用黑底网格知识卡；一组同类内容按文案到达的顺序点亮。
-- 需要观众看清某个截图区域时，裁切并居中框选目标，而不是整张截图铺满画面。
-- 不把所有画面都做成同一种动效；强调只发生在真的需要强调的内容上。
-- 渲染前以真实音频为准校对：配音说到哪里，字幕、画面和重点就跟到哪里。
-
-## 隐私与发布前检查
-
-这个公开仓库不包含 API Key、克隆音色、个人录音、企业截图、客户资料、本地绝对路径或其他私密内容。
-
-公开前运行：
+准备好三样东西：一份口播稿、一条配音，以及图片或截图素材。
 
 ```powershell
-pwsh ./scripts/check-public-release.ps1
+git clone https://github.com/Fioon-Studio/remotion-video-skill.git
+Copy-Item .\remotion-video-skill\templates\remotion-app .\my-video -Recurse
+Copy-Item .\remotion-video-skill\SKILL.md .\my-video\SKILL.md
+Copy-Item .\remotion-video-skill\config .\my-video\config -Recurse
+Set-Location .\my-video
+npm install
+npm run dev
 ```
+
+打开 Remotion 后先看 `StyleSystemDemo`。接着：
+
+1. 复制 `config/brand.example.json`，改成自己的本地品牌配置。
+2. 把配音和图片放进 `public/audio`、`public/images`。
+3. 根据配音生成 `timing.json`，让字幕、画面和动效使用同一份时间线。
+4. 把项目交给 Agent，并让它阅读根目录的 `SKILL.md` 后再开始制作。
+
+开始制作前，先完成一张章节分镜：哪段讲例子、哪段讲概念、哪段展示产品或截图，以及每次转场的理由。完整表格和审片方法见 [导演分镜与版面检查](references/director-preflight.md)。这一步能避免把文案、方框和装饰随机叠在一张图上。
+
+可直接这样说：
+
+```text
+请阅读这个项目的 SKILL.md。根据 script.txt、narration.mp3 和 timing.json，
+把口播稿制作成一条中文讲解视频。先给出分镜和关键画面预览，确认后再渲染。
+```
+
+## 怎么选画面
+
+| 文案内容 | 推荐画面 |
+| --- | --- |
+| 一个生活例子或具体操作 | 白底人物场景 |
+| 四项以上的列表、流程、对比或定义 | 黑底知识卡 |
+| 需要观众看清一个按钮、文件或界面区域 | 裁切截图并聚焦目标 |
+| 真正进入新主题 | 简短章节页 |
+
+画面变化应由口播内容触发：说到哪个选项，哪个选项才亮；截图只展示需要看的局部；不是每一页都要用同一种转场。
+
+固定片头负责在开场收益讲完前交代主题和章节轮廓。白底场景用于具体例子，黑底知识卡用于四项以上的概念、流程或关系；白底场景超过约五秒时，使用同场景的连续动作变化，而不是静止讲完整段。
+
+## 目录一览
+
+| 位置 | 用途 |
+| --- | --- |
+| `SKILL.md` | 给 Agent 的制作规则与工作方式 |
+| `templates/remotion-app` | 可直接复制的 Remotion 模板 |
+| `config` | 品牌、角色与素材的示例配置 |
+| `references` | 时间轴、音频和组件实现说明 |
+| `scripts` | 初始化与时间线辅助脚本 |
+
+## 你需要自己准备
+
+- 文案与最终配音
+- 自己有权使用的 Logo、人物图、截图、字体、音乐和音效
+- 本地的 API 配置（如果你使用云端 TTS 或图像生成）
+
+仓库不包含真实品牌素材、克隆音色、个人录音、客户截图或 API Key。
+
+## English
+
+An English overview is available in [README.en.md](./README.en.md).
 
 ## License
 
 [MIT License](./LICENSE) · Copyright (c) 2026 Fioon-Studio
-
