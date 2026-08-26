@@ -14,6 +14,8 @@
 
 安装后运行 `npm run dev`，选择 `StyleSystemDemo`，就能先看到这套通用结构。详细替换方式见 [references/implementation-recipes.md](references/implementation-recipes.md)、[references/tts-and-assets.md](references/tts-and-assets.md)、[references/production-spec.md](references/production-spec.md)、[references/character-and-visual-spec.md](references/character-and-visual-spec.md) 与 [references/asset-library-and-frame-sync.md](references/asset-library-and-frame-sync.md)。
 
+已经有在用的 Remotion 项目时，不要为了套用这份开源包再复制一个项目。请按 [自用款配置方式](references/self-use-profile.md) 在自己的项目内建立私有资产索引和制作配置；开源款继续只保留通用模板与方法。
+
 > 中文优先的 Remotion 短视频制作 Skill，给 Codex、WorkBuddy 和 DeepSeek Harness 读取、执行与复用。
 
 把一份口播稿，整理成一条可继续修改的短视频：画面、配音、字幕、重点词、知识卡和音效都围绕同一份时间线工作。
