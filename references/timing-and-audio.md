@@ -29,6 +29,7 @@ Build and verify the shared timeline:
 ```bash
 node scripts/build-visual-anchors.mjs timing.json aligned-items.json visual-anchor-spec.json visual-anchors.json --write-timing
 node scripts/check-visual-anchors.mjs timing.json visual-anchor-spec.json visual-anchors.json
+node scripts/check-visual-bindings.mjs src/YourComposition.tsx visual-anchor-spec.json
 ```
 
 The output contains the actual `startFrame` and `endFrame` for every requested phrase. Components must read this output; hand-written frame numbers are not a substitute. If narration changes, regenerate alignment, anchors, `timing.json`, captions and then re-check before rendering.
