@@ -30,3 +30,7 @@ export const cueStartsAtAnchor = (cue: VisualCue, narration: NarrationSegment[])
   const owner = narration.find((segment) => segment.text.includes(cue.anchorText));
   return owner ? cue.startFrame >= owner.startFrame && cue.startFrame <= owner.endFrame : false;
 };
+
+/** True only while the matching word or short phrase is actually being spoken. */
+export const isCueActiveAtFrame = (frame: number, cue: Pick<VisualCue, 'startFrame' | 'endFrame'>) =>
+  frame >= cue.startFrame && frame < cue.endFrame;

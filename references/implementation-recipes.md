@@ -25,7 +25,14 @@
 
 - 黑底网格必须是最底层背景。普通步骤、文件夹和选项保持原位，口播讲到对应词时才点亮，其他项只轻微变暗。
 - `ScreenshotFocus` 只用于一个文件、按钮、README 段落或截图区域。框选目标应在可见裁切区域的中心，四周界面变暗；不要让普通列表逐项跑到中间。
-- 点亮的开始帧读取 timing manifest 中该词的 `startFrame`，不得把场景时间平均切分。
+- 点亮的开始帧和结束帧都读取 timing manifest 中该词的 `startFrame` / `endFrame`，不得把场景时间平均切分。当前项固定按下面方法判定：
+
+```ts
+const isSpeaking = (frame: number, cue: VisualCue) =>
+  frame >= cue.startFrame && frame < cue.endFrame;
+```
+
+只在 `isSpeaking` 为真时使用亮态；词说完立即暗下。60fps 每帧约 16.7ms，因此把强制对齐的毫秒时间换算到最近一帧，不额外追加动画延迟。
 
 ## 字幕渐变与稳定位置
 
