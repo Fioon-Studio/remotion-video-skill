@@ -13,6 +13,26 @@ Use a frame-based manifest so captions and visual actions share the same source 
 
 Use the real narration timestamps when filling `startFrame` and `endFrame`. At 60 fps, one second is 60 frames; at 30 fps, one second is 30 frames.
 
+## Word-level visual anchors
+
+Do not estimate visual timing by dividing a scene. Produce a word-level ASR or forced-alignment JSON from the final narration, then describe every visual event in `visual-anchor-spec.json`:
+
+```json
+{"anchors":[
+  {"id":"readme-focus","phrase":"先看 README"},
+  {"id":"install-highlight","phrase":"再点 Code"}
+]}
+```
+
+Build and verify the shared timeline:
+
+```bash
+node scripts/build-visual-anchors.mjs timing.json aligned-items.json visual-anchor-spec.json visual-anchors.json --write-timing
+node scripts/check-visual-anchors.mjs timing.json visual-anchor-spec.json visual-anchors.json
+```
+
+The output contains the actual `startFrame` and `endFrame` for every requested phrase. Components must read this output; hand-written frame numbers are not a substitute. If narration changes, regenerate alignment, anchors, `timing.json`, captions and then re-check before rendering.
+
 For every visual cue, store the target and its anchor explicitly. For example:
 
 ```json
