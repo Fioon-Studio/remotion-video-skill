@@ -34,14 +34,16 @@ description: 用 Remotion 将中文口播稿、配音和素材制作成可继续
 10. 章节进度条、完成段和行走角色的位置必须来自完整配音中的真实章节帧。角色在进度线上方移动，圆点中心与线中心重合，章节文字不换行。
 11. 背景音乐只做衬底；点击、确认和转场音效必须对应看得见的动作。
 12. 不添加没有叙事职责的外框、小方块、星号或一秒闪过的页面。固定片头、章节页和每一次转场都必须对应一个完整的口播意图。
+13. 除了 `director-plan.md`，必须建立 `director-runtime-spec.json`：逐场景声明真实口播范围、视觉类型、主体区、素材、版式、需要变化的节拍，以及会点亮的 ASR 锚点。组件和检查脚本只读这一份规格；不允许分镜写一套、代码再猜一套。
+14. 所有居中、列宽、间距和入场位置由主体区、列数和卡片数量推导。禁止用 `-50`、任意 `top` 微调或额外帧数修正错误；需要调整时，改规格的版式参数，再由统一布局函数计算。
 
 ## 工作顺序
 
 1. 读口播稿，标出开头收益、生活例子、概念、操作、章节和结尾行动。
-2. 先写 `director-plan.md`：每个章节要有口播锚点、观众收益、白底/黑底/截图类型、画面主体、动效、转场理由和禁止项。格式见 [references/director-preflight.md](references/director-preflight.md)。未完成分镜，不开始编码或生图。
+2. 先写 `director-plan.md`：每个章节要有口播锚点、观众收益、白底/黑底/截图类型、画面主体、动效、转场理由和禁止项。再写 `director-runtime-spec.json`，让每个场景明确“观众要理解什么、具体看什么、下一句到来时画面如何变化”。格式见 [references/director-preflight.md](references/director-preflight.md) 和 [references/director-runtime-contract.md](references/director-runtime-contract.md)。未完成分镜，不开始编码或生图。
 3. 为每个片段选择画面，并为所有会变化的元素记录口播锚点；产品出现时优先使用官方高清 Logo、公开产品页截图或有权使用的录屏。
 4. 使用最终 narration 生成或导入 `timing.json`；清洗字幕标点。
-5. 用 `src/LayoutGuard.ts` 检查文字、卡片、外框和按钮的矩形是否相撞，再预览固定片头、白底动作页、黑底卡、章节页和截图页，确认布局和字幕基线，再渲染完整视频。
+5. 先检查导演规格：ASR 锚点必须存在且完全落在场景内；文字、卡片、外框和按钮的矩形不能相撞；长段口播必须有明确画面变化节拍。随后用 `src/LayoutGuard.ts` 复查布局，并逐秒审片，再渲染完整视频。
 6. narration 改动后，重新生成时间线和字幕，不复用旧时间戳。
 
 ## 隐私
@@ -52,6 +54,7 @@ description: 用 Remotion 将中文口播稿、配音和素材制作成可继续
 
 - 组件使用方式：[references/implementation-recipes.md](references/implementation-recipes.md)
 - 导演分镜、节奏和版面检查：[references/director-preflight.md](references/director-preflight.md)
+- 导演规格如何直接驱动组件与检查：[references/director-runtime-contract.md](references/director-runtime-contract.md)
 - 已发现问题与强制检查：[references/production-retrospective.md](references/production-retrospective.md)
 - 时间线与音频：[references/timing-and-audio.md](references/timing-and-audio.md)
 - TTS、音乐与音效替换：[references/tts-and-assets.md](references/tts-and-assets.md)
