@@ -26,7 +26,7 @@ description: 用 Remotion 将中文口播稿、配音和素材制作成可继续
 2. 三项以内的短重点可以写在图片留白处；文字必须大、清楚，并避开复杂背景。
 3. 字幕、画面、人物动作、截图框选、重点点亮和音效都从同一份真实时间线读取。每个变化以对应口播词或短句的起始帧为锚点，不按场景平均分配。
 4. 为每条片建立 `visual-anchor-spec.json`，逐项写出需要出现、点亮、放大、淡下、换动作或触发音效的词组；从最终 narration 的词级 ASR/强制对齐结果运行 `scripts/build-visual-anchors.mjs`，输出 `visual-anchors.json` 并回写 `timing.json`。组件只读取这些锚点，不能手填 frame。
-5. 渲染前运行 `scripts/check-visual-anchors.mjs` 和 `scripts/check-visual-bindings.mjs`。任一视觉对象缺失词级来源、组件引用未声明锚点，或 `timing.json` 与 `visual-anchors.json` 的起止帧不一致，必须先修正。
+5. 渲染前运行 `scripts/check-visual-anchors.mjs`、`scripts/check-visual-bindings.mjs` 和 `scripts/check-anchor-scene-windows.mjs`。任一视觉对象缺失词级来源、组件引用未声明锚点、锚点落在页面可见期外、页面内没有足够阅读时间，或 `timing.json` 与 `visual-anchors.json` 的起止帧不一致，必须先修正。
 6. 普通步骤、选项和文件夹保持原位。只有口播说到该项时才点亮它。只有需要观众检查单一按钮、文件或截图区域时，才将目标移到中心放大并压低其他内容。
 7. 截图只展示相关区域；将目标放在裁切画面中心，可使用局部暗化、框选或放大镜。不要整张界面铺满画面。
 8. 字幕按自然停顿和完整词组切分，屏幕上隐藏 `，。？！`。固定字幕基线，绝不拆开一个词。
@@ -52,6 +52,7 @@ description: 用 Remotion 将中文口播稿、配音和素材制作成可继续
 
 - 组件使用方式：[references/implementation-recipes.md](references/implementation-recipes.md)
 - 导演分镜、节奏和版面检查：[references/director-preflight.md](references/director-preflight.md)
+- 已发现问题与强制检查：[references/production-retrospective.md](references/production-retrospective.md)
 - 时间线与音频：[references/timing-and-audio.md](references/timing-and-audio.md)
 - TTS、音乐与音效替换：[references/tts-and-assets.md](references/tts-and-assets.md)
 - 渲染前运行：`node scripts/check-timeline.mjs <timing.json>`
