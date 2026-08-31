@@ -41,12 +41,13 @@ description: 用 Remotion 将中文口播稿、配音和素材制作成可继续
 
 ## 工作顺序
 
-1. 读口播稿，标出开头收益、生活例子、概念、操作、章节和结尾行动。
-2. 先写 `director-plan.md`：每个章节要有口播锚点、观众收益、白底/黑底/截图类型、画面主体、动效、转场理由和禁止项。再写 `director-runtime-spec.json`，让每个场景明确“观众要理解什么、具体看什么、下一句到来时画面如何变化”。格式见 [references/director-preflight.md](references/director-preflight.md) 和 [references/director-runtime-contract.md](references/director-runtime-contract.md)。未完成分镜，不开始编码或生图。
-3. 为每个片段选择画面，并为所有会变化的元素记录口播锚点；产品出现时优先使用官方高清 Logo、公开产品页截图或有权使用的录屏。
-4. 使用最终 narration 生成或导入 `timing.json`；清洗字幕标点。
-5. 先检查导演规格：ASR 锚点必须存在且完全落在场景内；文字、卡片、外框和按钮的矩形不能相撞；长段口播必须有明确画面变化节拍。随后用 `src/LayoutGuard.ts` 复查布局，并逐秒审片，再渲染完整视频。
-6. narration 改动后，重新生成时间线和字幕，不复用旧时间戳。
+1. 先确认定稿口播、目标画幅、账号视觉方向和可用的真实素材；未提供的产品界面、案例或数据标记为“待补素材”，不临时编造。
+2. 以整段 narration 先完成配音与声学对齐，生成短语级 `timing.json` 和可人工检查的 `vo-align.txt`。技术词、产品名和所有需要点亮的文字分别建立锚点；对齐通过前不开始剪辑。
+3. 先写视觉编排表和 `director-plan.md`：每个镜头要有真实口播范围、理解目标、A-roll/B-roll 类型、构图、有效信息变化、承接方式和素材状态。再写 `director-runtime-spec.json`，让每个场景明确“观众要理解什么、具体看什么、下一句到来时画面如何变化”。格式见 [references/director-preflight.md](references/director-preflight.md)、[references/director-runtime-contract.md](references/director-runtime-contract.md) 与 [references/knowledge-video-workflow.md](references/knowledge-video-workflow.md)。未完成编排表，不开始编码或生图。
+4. 准备素材：A-roll 读取角色三视图、风格细节图和场景参考，并在主持人、主角、配角、第一人称之间按叙事职责选择；B-roll 先按“比较、聚合、筛选、层级、因果、替换、展开、步骤”匹配本地模板，再考虑已允许的公开模板。产品出现时优先使用官方高清 Logo、公开产品页截图或有权使用的录屏。
+5. 先渲染覆盖片头、人物、知识卡、截图焦点和行动提示的 45 至 75 秒样片，检查 A/B 交替、信息密度、素材质量和字幕安全区；样片通过后再制作全片。
+6. 全片完成前检查导演规格：ASR 锚点必须存在且完全落在场景内；文字、卡片、外框和按钮的矩形不能相撞；长段口播必须有明确画面变化节拍。随后用 `src/LayoutGuard.ts` 复查布局，按每秒一帧审片，并逐个验收 `start-1`、`start`、`end-1`、`end`。
+7. narration 改动后，重新生成配音对齐、时间线、字幕和视觉锚点，不复用旧时间戳。
 
 ## 隐私
 
@@ -60,6 +61,7 @@ description: 用 Remotion 将中文口播稿、配音和素材制作成可继续
 - 已发现问题与强制检查：[references/production-retrospective.md](references/production-retrospective.md)
 - 时间线与音频：[references/timing-and-audio.md](references/timing-and-audio.md)
 - TTS、音乐与音效替换：[references/tts-and-assets.md](references/tts-and-assets.md)
+- 知识视频的完整制作链、导演表和中文提示词：[references/knowledge-video-workflow.md](references/knowledge-video-workflow.md)
 - 渲染前运行：`node scripts/check-timeline.mjs <timing.json>`
 
 不要假设用户的盘符、用户名、代理、音色、品牌或素材授权。缺少素材时明确列出缺项，不用私有文件替代。
